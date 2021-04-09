@@ -15,71 +15,17 @@ AVS2.html is one link. Provided by Marcis Gasuns. June 2019
 * AVS2.html - unicode line endings
 python unixify.py AVS2.html
 
-* TODO accent visarga ???
-Failed attempt to do this with Python code -- no luck
-python avtest.py 2 AVS2.html temp_AV_1.html 
-There is a problem in displaying accent + visarga.
-
 * Examine for unknown unicode characters
 python avtest.py 0 AVS2.html temp_unknown_unicode.txt
  Manually change a few 'tab' characters to space in AVS2.html
  Then rerun.
  No other unknown unicode characters
+
+
 * redo.sh
-creates several intermediate files from AVS2.html
-Then
- recreates avhymns.
-Then deletes intermediate files
-* clean.sh
- removes intermediate files
-* --------------------------------------------------
-*  work
-* display with special font, using 'ee8083'
-The file codes this in a special way, using accent + 'ee8083'.
-This displays properly when using the siddhanta or sanskrit2003 font;
-see 'RV_orig_sanskrit2003.html' or RV_orig_siddhanta.html  (which
-contain just through 1.003.xxx).
-* AV_2.html   No
-The AV_2.html changes the spellings from
- 'accent + ee8083' to 'accent + visarga'.
-It does not display properly whatever the font.
 
-* AV_3.html
-The Sanskrit Documents version of rig veda changes the spelling 
-from 'vowel + accent + visarga' to 'vowel + visarga + accent'.
-This spelling may be inaccurate (see note), but it displays almost properly
- (the accent positioning is changed to be over the : of visarga).
-The AV_3.html file changes the spellings from
-  'vowel + accent + ee8083' to 'vowel + visarga + accent'.
+ recreates avhymns directory
 
- NOTE: according to SergeA, 'vowel + visarga + accent' is correct spelling.
-
-python rvtest.py 5 AVS2.html AV_3a.html
-
-* AV_4.html
-python rvtest.py 6 AV_3a.html AV_4a.html
-
- ascii digit 1 or 3 followed by 57353 + 57351 (two special editing characters,
- probably for sanskrit2003 font)
- Change to devanagari digit one or three + udatta + anudatta.
- 664 changes in 651 lines.
- This is now comparable to the Sanskrit Documents version of Rg Veda:
-   https://sanskritdocuments.org/doc_veda/r01.html?lang=sa
-This is created from RV_...3.html by function temp6() in rvtest.py
-
-* AV_5.html
-Use unix line-endings
-python rvtest.py 7 AV_4.html AV_5.html
-
-
-* rvhymns
-  Hymns are named rv01.001 
-  A particular verse rv01.001.01
-  files named rv01.001.html
-mkdir rvhymns
-python make_hymns_01.py AV_5.html rvhymns
-
-118535 lines
-10552 verses found
-1028 hymns found
+5933 verses found
+731 hymns found
 
