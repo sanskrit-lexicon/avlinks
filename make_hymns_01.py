@@ -129,6 +129,7 @@ def adjust_lines1(lines):
 if __name__ == "__main__":
  filein=sys.argv[1]
  dirout = sys.argv[2]
+ filelog = sys.argv[3]
  with codecs.open(filein,"r","utf-8") as f:
   lines = [x.rstrip('\r\n') for x in f]
  print(len(lines),"lines in",filein)
@@ -140,10 +141,12 @@ if __name__ == "__main__":
  hymns = init_hymns(verses)
  print(len(hymns),"hymns found")
  # Write each hymn to a file
+ flog = codecs.open(filelog,"w","utf-8")
  for ihymn,hymn in enumerate(hymns):
   mandala,hymnnum = hymn.hymnid
   fileout = '%s/av%s.%s.html' %(dirout,mandala,hymnnum)
   hymn.write(fileout)
-  #if ihymn == 5:
-  # print("debug exit")
-  # exit(1)
+  out = 'av%s.%s %s verses' %(mandala,hymnnum,len(hymn.verses))
+  flog.write(out+'\n')
+ flog.close()
+ print(len(hymns),'statistics written to',filelog)
