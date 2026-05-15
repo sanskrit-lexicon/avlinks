@@ -4,32 +4,43 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**avlinks** provides web pages displaying individual verses of the Atharva Veda, enabling direct links from CDSL dictionaries to cited Atharva Veda passages. Deployed at `https://sanskrit-lexicon.github.io/avlinks/`.
+**avlinks** is a Sanskrit Lexicon **linking-tool** repository — part of the Cologne Digital Sanskrit Lexicon (CDSL) infrastructure.
 
-Each verse page shows the verse in Devanagari (with accents), IAST transliteration, and Russian translation (Elizarenkova).
+## Repo Category
 
-## Architecture
+`linking-tool` — see the [tooling runbook](https://github.com/sanskrit-lexicon/csl-observatory/blob/main/runbook/cologne-tooling-runbook.md) for category-specific conventions.
 
-| File/Directory | Purpose |
-|---|---|
-| `avhymns/` | Generated HTML files, one per hymn (`av01.001.html` through `av20.NNN.html`) |
-| `make_hymns_01.py` | Generates `avhymns/*.html` from the processed AV source |
-| `avtest.py` | Processes the raw AV HTML source into pipeline-ready format |
-| `AVS2.html` | Primary source: Atharva Veda with Sanskrit, Russian columns |
-| `avhymns.css` | Stylesheet for hymn display pages |
-| `fonts/` | Sanskrit display fonts (Siddhanta) |
-| `make_hymns_log.txt` | Log from the last build run |
+## GitHub Issue Conventions
 
-### Build pipeline
+This repository uses the **Cologne tooling-repo taxonomy**. All issues must have:
+- **Exactly one type label** (9 options)
+- **Exactly one severity label** (4 levels)
+- **One milestone** (5 options)
 
-```bash
-python avtest.py <step> <input> <output>    # transform AV source
-python make_hymns_01.py <processed_source> avhymns   # generate hymn pages
-```
+### Type Labels
+- `bug` — Code defect (wrong output, broken contract)
+- `feature` — Net-new capability
+- `enhancement` — Improvement to existing capability
+- `performance` — Speed, memory, throughput optimization
+- `tech-debt` — Refactoring, cleanup, dependency updates
+- `security` — CVE, auth issue, credential exposure
+- `documentation` — Prose docs, API docs, comments
+- `infrastructure` — CI/CD, deploy, data pipelines, build tooling
+- `question` — Research, proposals, open discussions
 
-After building, `avhymns/` is pushed and served via GitHub Pages at `https://sanskrit-lexicon.github.io/avlinks/`.
+### Severity Labels
+- `trivial` — Cosmetic, < 1 hour
+- `minor` — Single function/component
+- `major` — Multiple files, design decision
+- `critical` — Blocks users, data loss/security CVE
 
-## Dependencies
+### Milestones
+- **API Stability** — performance, security, regressions
+- **User Experience** — bugs, features, enhancements
+- **Data Quality** — data-pipeline issues, integrity
+- **Developer Experience** — tech-debt, infrastructure, docs
+- **Community** — questions, proposals, discussions
 
-- **Python 3**
-- `AVS2.html` — source Atharva Veda file (in repo)
+## Cross-Repo Coordination
+
+The org-level project [Tooling Roadmap](https://github.com/orgs/sanskrit-lexicon/projects/9) tracks tool work across all repositories.
