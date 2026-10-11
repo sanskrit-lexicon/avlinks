@@ -37,7 +37,7 @@ h1 {{ margin:16px 0 0; font-size:66px; font-weight:bold; color:#1f2328; line-hei
 <h1>{title} <span class="sub">· {sub}</span></h1>
 <div class="sa">{sa}</div>
 <div class="hn">{hn}</div>
-<div class="footer"><span>20 books · 731 hymns · 5933 verses</span><span>Translations by Dr. Mārcis Gasūns</span></div>
+<div class="footer"><span>20 books · 731 hymns · 5933 verses</span><span>Compiled by Dr. Mārcis Gasūns</span></div>
 </div></body></html>
 """
 
@@ -59,7 +59,11 @@ def render(hymn):
   '--allow-file-access-from-files','--window-size=1200,630',
   '--virtual-time-budget=3000','--screenshot=%s' % out,
   'file://%s' % os.path.abspath(TMP_HTML)]
- subprocess.run(cmd,capture_output=True,timeout=60,encoding='utf-8',errors='replace')
+ try:
+  subprocess.run(cmd,capture_output=True,timeout=60,encoding='utf-8',errors='replace')
+ except subprocess.TimeoutExpired:
+  # headless Chrome occasionally wedges on a single render; count it and move on
+  print('CARD TIMEOUT',page)
  if not os.path.exists(out) or os.path.getsize(out) == 0:
   print('CARD FAIL',page)
   return False
