@@ -1,10 +1,21 @@
 # coding=utf-8
-import sys,re,codecs
+import sys,re,codecs,os
+if hasattr(sys.stdout,'reconfigure'):
+ sys.stdout.reconfigure(encoding='utf-8')
+
+BASE_URL = "https://sanskrit-lexicon.github.io/avlinks"
+
 hymn_template =u"""<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>%s</title>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Atharva Veda (Śaunakīya) · avlinks">
+<meta property="og:title" content="%s">
+<meta property="og:description" content="%s">
+<meta property="og:url" content="%s">
+%s
 <link rel="stylesheet" type="text/css" href="avhymns.css">
 </head>
 <body>
@@ -30,7 +41,24 @@ class Hymn(object):
    f.write(html + '\n')
  def html(self):
   mandala,hymnnum = self.hymnid
-  title = "av%s.%s" %(mandala,hymnnum)
+  page = "av%s.%s" %(mandala,hymnnum)
+  title = "AVŚ %s.%s — Atharva Veda (Śaunakīya), hymn %s.%s" %(mandala,hymnnum,mandala,hymnnum)
+  # first line of verse 1: IAST preferred, Devanagari fallback
+  desc = para_first_line(self.verses[0].verselines,'hn')
+  if not desc:
+   desc = para_first_line(self.verses[0].verselines,'sa')
+  if desc:
+   desc = xml_escape(desc)
+   if len(desc) > 300:
+    desc = desc[:297] + '...'
+  else:
+   desc = title
+  ogimage = ''
+  if os.path.exists(os.path.join('cards',page + '.png')):
+   ogimage = ('<meta property="og:image" content="%s/cards/%s.png">\n'
+              '<meta property="og:image:width" content="1200">\n'
+              '<meta property="og:image:height" content="630">') %(BASE_URL,page)
+  ogurl = '%s/avhymns/%s.html' %(BASE_URL,page)
   bodylines = []
   for verse in self.verses:
    (_,_,versenum) = verse.verseid
@@ -44,7 +72,7 @@ class Hymn(object):
     else:
      bodylines.append(line)
   bodystring = '\n'.join(bodylines)
-  htmlstring = hymn_template %(title,bodystring)
+  htmlstring = hymn_template %(title,title,desc,ogurl,ogimage,bodystring)
   return htmlstring
 
 class Verse(object):
@@ -54,7 +82,24 @@ class Verse(object):
   nlines = len(self.verselines)
   if nlines not in [5,6]:
    print('Verse error:',self.verseid,'has %s lines'%nlines)
-   
+
+
+def para_first_line(lines,cls):
+ # content of the first line of the first paragraph of class cls, tags stripped
+ prefix = '<p class="%s">' % cls
+ for line in lines:
+  if line.startswith(prefix):
+   content = line[len(prefix):]
+   end = content.find('</p>')
+   if end != -1:
+    content = content[:end]
+   content = re.split(r'<br/?>',content)[0]
+   content = re.sub(r'<[^>]+>','',content).strip()
+   return content
+ return None
+
+def xml_escape(s):
+ return s.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
 
 def init_verses(lines):
  verses = []

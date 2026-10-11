@@ -21,6 +21,8 @@ Orientation lives in [`readme.org`](https://github.com/sanskrit-lexicon/avlinks/
 2. Check for unknown Unicode characters: [`avtest.py`](https://github.com/sanskrit-lexicon/avlinks/blob/main/avtest.py).
 3. Regenerate the `avhymns/` directory: [`redo.sh`](https://github.com/sanskrit-lexicon/avlinks/blob/main/redo.sh), which drives [`make_hymns_01.py`](https://github.com/sanskrit-lexicon/avlinks/blob/main/make_hymns_01.py) (per-hymn log in [`make_hymns_log.txt`](https://github.com/sanskrit-lexicon/avlinks/blob/main/make_hymns_log.txt)).
 
+4. Social preview cards (OG): every hymn page carries Open Graph meta (title, description, canonical URL). When a 1200x630 PNG exists at `cards/av<book>.<hymn>.png`, the page references it as `og:image`, so Telegram/Slack/X previews show the hymn number and its first verse line in Devanagari + IAST. Generate cards with headless Chrome (`CHROME_BIN` overrides the Chrome path): `python make_cards.py AVS2.html av01.001 av07.054 ...`. The 10-hymn pilot set: first hymn of books 1, 2, 3, 5, 7, 10, 12, 14, 17, 20.
+
 Repo-specific guidance for agents: [`CLAUDE.md`](https://github.com/sanskrit-lexicon/avlinks/blob/main/CLAUDE.md).
 
 ## Issues Overview
