@@ -3,5 +3,6 @@ mkdir avhymns
 cp avhymns.css avhymns/
 mkdir avhymns/fonts
 cp fonts/siddhanta.ttf avhymns/fonts/
+cp fonts/sanskrit2003.ttf avhymns/fonts/
 python make_hymns_01.py AVS2.html avhymns make_hymns_log.txt
 
