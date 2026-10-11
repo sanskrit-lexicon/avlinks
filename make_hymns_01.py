@@ -57,7 +57,10 @@ class Hymn(object):
   if os.path.exists(os.path.join('cards',page + '.png')):
    ogimage = ('<meta property="og:image" content="%s/cards/%s.png">\n'
               '<meta property="og:image:width" content="1200">\n'
-              '<meta property="og:image:height" content="630">') %(BASE_URL,page)
+              '<meta property="og:image:height" content="630">\n'
+              '<meta name="twitter:card" content="summary_large_image">\n'
+              '<meta name="twitter:image" content="%s/cards/%s.png">'
+             ) %(BASE_URL,page,BASE_URL,page)
   ogurl = '%s/avhymns/%s.html' %(BASE_URL,page)
   bodylines = []
   for verse in self.verses:
